@@ -39,13 +39,13 @@ func SeriesResponse(connString string, qr QueryRequest) ([]QuerySeriesResponse, 
 		groupBys := myExp.FindGroupBy(query)
 
 		if err != nil {
-			log.Info("ERROR: ", err)
+			log.Println("ERROR: ", err)
 			return nil, err
 		}
 
 		cols, err := rows.Columns()
 		if err != nil {
-			log.Info("ERROR: ", err)
+			log.Println("ERROR: ", err)
 			return nil, err
 		}
 
@@ -67,7 +67,7 @@ func SeriesResponse(connString string, qr QueryRequest) ([]QuerySeriesResponse, 
 		for rows.Next() {
 			err = rows.Scan(valuesToScan...)
 			if err != nil {
-				log.Info("ERROR: ", err)
+				log.Println("ERROR: ", err)
 				return nil, err
 			}
 			if len(groupBys) > 0 {
@@ -77,7 +77,7 @@ func SeriesResponse(connString string, qr QueryRequest) ([]QuerySeriesResponse, 
 
 						s, err := getString(*vals[column])
 						if err != nil {
-							log.Info("ERROR: ", err)
+							log.Println("ERROR: ", err)
 							return nil, err
 						}
 						if _, ok := mapGroupBys[s]; !ok {
@@ -99,12 +99,12 @@ func SeriesResponse(connString string, qr QueryRequest) ([]QuerySeriesResponse, 
 						if !stringInSlice(c, groupBys) {
 							val, err := getFloat(*vals[c], false)
 							if err != nil {
-								log.Info("ERROR: ", err)
+								log.Println("ERROR: ", err)
 								return nil, err
 							}
 							t, err := getFloat(*vals["time"], true)
 							if err != nil {
-								log.Info("ERROR: ", err)
+								log.Println("ERROR: ", err)
 								return nil, err
 							}
 							dp := [2]float64{val, t}
@@ -124,12 +124,12 @@ func SeriesResponse(connString string, qr QueryRequest) ([]QuerySeriesResponse, 
 					}
 					val, err := getFloat(*vals[column], false)
 					if err != nil {
-						log.Info("ERROR: ", err)
+						log.Println("ERROR: ", err)
 						return nil, err
 					}
 					t, err := getFloat(*vals["time"], true)
 					if err != nil {
-						log.Info("ERROR: ", err)
+						log.Println("ERROR: ", err)
 						return nil, err
 					}
 

@@ -1,0 +1,8 @@
+github.com/go-chi/chi v4.0.2+incompatible h1:maB6vn6FqCxrpz4FqWdh4+lwpyZIQS7YEAUcHlgXVRs=
+github.com/go-chi/chi v4.0.2+incompatible/go.mod h1:eB3wogJHnLi3x/kFX2A+IbTBlXxmMeXJVKy9tTv1XzQ=
+github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
+github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
+github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
+github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
+github.com/vertica/vertica-sql-go v0.0.0-20190625203317-9fd62fc8f5d3 h1:Wdz/e0Gg71BbNtg1KVyYHEfspURa2/79uLC2ybtkQwI=
+github.com/vertica/vertica-sql-go v0.0.0-20190625203317-9fd62fc8f5d3/go.mod h1:2LGtkNSdFF5CTJYeUA5qWfREuvYaql+51fNzmoD5W7c=

@@ -14,13 +14,13 @@ func TableResponse(connString string, qr QueryRequest) ([]QueryTableResponse, er
 	defer connDB.Close()
 	ctx := context.Background()
 	if err != nil {
-		log.Info("ERROR: ", err)
+		log.Println("ERROR: ", err)
 		return nil, err
 
 	}
 	err = connDB.PingContext(ctx)
 	if err != nil {
-		log.Info("ERROR: ", err)
+		log.Println("ERROR: ", err)
 		return nil, err
 	}
 
@@ -43,7 +43,7 @@ func TableResponse(connString string, qr QueryRequest) ([]QueryTableResponse, er
 
 		cols, err := rows.Columns()
 		if err != nil {
-			log.Info("ERROR: ", err)
+			log.Println("ERROR: ", err)
 			return nil, err
 		}
 		columns := []Column{}
@@ -73,7 +73,7 @@ func TableResponse(connString string, qr QueryRequest) ([]QueryTableResponse, er
 			row := []interface{}{}
 			err = rows.Scan(valuesToScan...)
 			if err != nil {
-				log.Info("ERROR: ", err)
+				log.Println("ERROR: ", err)
 				return nil, err
 			}
 
@@ -111,7 +111,7 @@ func TableResponse(connString string, qr QueryRequest) ([]QueryTableResponse, er
 						r := []interface{}{}
 						t, err := getFloat(*vals["time"], true)
 						if err != nil {
-							log.Info("ERROR: ", err)
+							log.Println("ERROR: ", err)
 							return nil, err
 						}
 						r = append(r, t)
@@ -125,7 +125,7 @@ func TableResponse(connString string, qr QueryRequest) ([]QueryTableResponse, er
 						r := []interface{}{}
 						t, err := getFloat(*vals["time"], true)
 						if err != nil {
-							log.Info("ERROR: ", err)
+							log.Println("ERROR: ", err)
 							return nil, err
 						}
 						r = append(r, t)

@@ -1,42 +1,42 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
-	"log"
-	
+
 	gVS "github.com/frankegoesdown/grafana-vertica-plugin/internal/app/grafana-vertica-service-server"
-	
+	"github.com/go-chi/chi"
 	_ "github.com/vertica/vertica-sql-go"
 )
 
 func main() {
 	ConnectionString := ""
+	r := chi.NewRouter()
 
-	a.PublicServer().Method(http.MethodGet, "/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		w.Write([]byte("foo"))
 	}))
 
-	a.PublicServer().Method(http.MethodPost, "/search", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/zip", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "applicaiton/zip")
+		w.Header().Set("Content-Disposition", "attachment; filename='ozon-grafana-simple-json-datasource.zip'")
+
+		http.ServeFile(w, r, "./bin/ozon-grafana-simple-json-datasource.zip")
+	}))
+
+	r.Post("/search", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		mapD := []string{"apple", "lettuce"}
 		mapB, _ := json.Marshal(mapD)
 		w.Write(mapB)
 	}))
 
-	a.PublicServer().Method(http.MethodGet, "/zip", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "applicaiton/zip")
-		w.Header().Set("Content-Disposition", "attachment; filename='ozon-grafana-simple-json-datasource.zip'")
-
-		http.ServeFile(w, r, "./bin/ozon-grafana-simple-json-datasource.zip")
-	}))
-	a.PublicServer().Method(http.MethodPost, "/query", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/query", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		qr := gVS.QueryRequest{}
 
-		err = json.NewDecoder(r.Body).Decode(&qr)
+		err := json.NewDecoder(r.Body).Decode(&qr)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -51,7 +51,7 @@ func main() {
 
 		if isTableQuery {
 
-			resp, err := gVS.TableResponse(config.ConnectionString, qr)
+			resp, err := gVS.TableResponse(ConnectionString, qr)
 			mapB, err := json.Marshal(resp)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
@@ -59,7 +59,7 @@ func main() {
 			}
 			w.Write(mapB)
 		} else {
-			resp, err := gVS.SeriesResponse(config.ConnectionString, qr)
+			resp, err := gVS.SeriesResponse(ConnectionString, qr)
 			mapB, err := json.Marshal(resp)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
@@ -69,7 +69,5 @@ func main() {
 		}
 	}))
 
-	if err := a.Run(gVS.NewGrafanaVerticaServiceServer()); err != nil {
-		log.Fatalf(context.Background(), "can't run app: %s", err)
-	}
+	http.ListenAndServe(":7000", r)
 }
