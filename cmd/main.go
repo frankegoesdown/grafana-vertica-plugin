@@ -20,9 +20,9 @@ func main() {
 
 	r.Get("/zip", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "applicaiton/zip")
-		w.Header().Set("Content-Disposition", "attachment; filename='ozon-grafana-simple-json-datasource.zip'")
+		w.Header().Set("Content-Disposition", "attachment; filename='grafana-vertica-datasource.zip'")
 
-		http.ServeFile(w, r, "./bin/ozon-grafana-simple-json-datasource.zip")
+		http.ServeFile(w, r, "./bin/grafana-vertica-datasource.zip")
 	}))
 
 	r.Post("/search", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
