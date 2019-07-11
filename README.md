@@ -12,3 +12,12 @@ how to put plugins in grafana folder: https://grafana.com/docs/plugins/installat
 grafana-cli plugins update-all
 service grafana-server restart
 ```
+downloading vendors
+```
+go mod vendor
+```
+
+run server
+```
+go run main.go
+```
