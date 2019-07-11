@@ -1,0 +1,1 @@
+# grafana-vertica-plugin
